@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "703640946172",
+    "project_id": "sistem-penjurian-burung-4d136",
+    "storage_bucket": "sistem-penjurian-burung-4d136.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703640946172:android:2e4f47fc666a19f99b9e79",
+        "android_client_info": {
+          "package_name": "com.example.sistem_penjurian_burung"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_HLxcd0KEQxLIVf-BQEoH5RIc0NppBno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
