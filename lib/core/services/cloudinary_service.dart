@@ -1,12 +1,11 @@
 import 'dart:io';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CloudinaryService {
-  // --- GANTI DENGAN DATA ANDA DARI LANGKAH 1 ---
-  final String _cloudName = "dvo7vmuuo";
-  final String _uploadPreset = "bukti_pembayaran";
-  // ---------------------------------------------
+  final String _cloudName = dotenv.env['CLOUDINARY_CLOUD_NAME']!;
+  final String _uploadPreset = dotenv.env['CLOUDINARY_UPLOAD_PRESET']!;
 
   late final CloudinaryPublic _cloudinary;
 
@@ -14,10 +13,10 @@ class CloudinaryService {
     _cloudinary = CloudinaryPublic(_cloudName, _uploadPreset, cache: false);
   }
 
-  // Mengunggah file bukti pembayaran dan mengembalikan URL yang aman
+  // Mengunggah file bukti pembayaran dan mengembalikan URL
   Future<String> uploadBuktiPembayaran(File file, String pendaftaranId) async {
     try {
-      // Solusi 1: Gunakan timestamp untuk membuat publicId unik
+      //timestamp untuk membuat publicId unik
       final timestamp = DateTime.now().millisecondsSinceEpoch;
       final uniquePublicId = '${pendaftaranId}_$timestamp';
 
@@ -26,7 +25,7 @@ class CloudinaryService {
           file.path,
           resourceType: CloudinaryResourceType.Image,
           // Buat folder di Cloudinary untuk setiap pendaftaran
-          folder: 'bukti_pembayaran',
+          folder: dotenv.env['CLOUDINARY_UPLOAD_PRESET'],
           // Beri nama file yang unik dengan timestamp
           publicId: uniquePublicId,
         ),

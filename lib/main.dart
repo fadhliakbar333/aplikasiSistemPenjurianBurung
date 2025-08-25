@@ -7,21 +7,18 @@ import 'package:sistem_penjurian_burung/features/auth/screens/verify_email_scree
 import 'package:sistem_penjurian_burung/features/home/screens/home_wrapper.dart';
 import 'package:sistem_penjurian_burung/core/services/auth_service.dart';
 import 'package:sistem_penjurian_burung/features/theme/providers/theme_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
-  final container = ProviderContainer();
 
   runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const SistemPenjurianBurung(),
-    ),
+    ProviderScope(child: SistemPenjurianBurung())
   );
 }
 
