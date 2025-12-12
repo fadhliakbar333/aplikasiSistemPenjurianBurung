@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sistem_penjurian_burung/core/models/pendaftaran_model.dart';
 import 'package:sistem_penjurian_burung/core/models/sesi_model.dart'; // <-- Import SesiModel
 import 'package:sistem_penjurian_burung/core/services/firestore_service.dart';
 

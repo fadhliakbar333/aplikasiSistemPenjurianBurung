@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sistem_penjurian_burung/core/services/auth_service.dart';
 import 'package:sistem_penjurian_burung/core/services/firestore_service.dart';
 import 'package:sistem_penjurian_burung/features/admin/screens/event_management_screen.dart';
-import 'package:sistem_penjurian_burung/features/admin/screens/konfirmasi_pembayaran_screen.dart';
 import 'package:sistem_penjurian_burung/features/admin/screens/payment_management_screen.dart';
 import 'package:sistem_penjurian_burung/features/admin/screens/user_management_screen.dart';
 import 'package:sistem_penjurian_burung/features/auth/screens/ganti_password_screen.dart';

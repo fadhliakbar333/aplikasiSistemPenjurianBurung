@@ -9,7 +9,7 @@ enum KategoriPenilaian {
   warnaBulu,
   kestabilan,
   responTerhadapLawan,
-  kesesuaianGaya
+  kesesuaianGaya,
 }
 
 // Helper extension untuk mendapatkan nama yang bisa dibaca manusia
@@ -36,8 +36,6 @@ extension KategoriPenilaianExtension on KategoriPenilaian {
         return 'Respon Terhadap Lawan';
       case KategoriPenilaian.kesesuaianGaya:
         return 'Kesesuaian Gaya';
-      default:
-        return '';
     }
   }
 }

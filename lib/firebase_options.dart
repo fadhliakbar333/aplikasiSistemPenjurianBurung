@@ -51,11 +51,11 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB_HLxcd0KEQxLIVf-BQEoH5RIc0NppBno',
-    appId: '1:703640946172:android:2e4f47fc666a19f99b9e79',
-    messagingSenderId: '703640946172',
-    projectId: 'sistem-penjurian-burung-4d136',
-    storageBucket: 'sistem-penjurian-burung-4d136.firebasestorage.app',
+    apiKey: 'AIzaSyCxUPQezefYBoExQbLTWCAnVj0_Y7Gtil8',
+    appId: '1:690732126998:android:6bb7b23cea18fb1281f637',
+    messagingSenderId: '690732126998',
+    projectId: 'penjurianburung-dd3af',
+    storageBucket: 'penjurianburung-dd3af.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '703640946172',
     projectId: 'sistem-penjurian-burung-4d136',
     storageBucket: 'sistem-penjurian-burung-4d136.firebasestorage.app',
-    iosBundleId: 'com.example.sistemPenjurianBurung',
+    iosBundleId: 'com.example.sistem_penjurian_burung',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '703640946172',
     projectId: 'sistem-penjurian-burung-4d136',
     storageBucket: 'sistem-penjurian-burung-4d136.firebasestorage.app',
-    iosBundleId: 'com.example.sistemPenjurianBurung',
+    iosBundleId: 'com.example.sistem_penjurian_burung',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'sistem-penjurian-burung-4d136.firebasestorage.app',
     measurementId: 'G-ZJG1LZD56T',
   );
-
 }

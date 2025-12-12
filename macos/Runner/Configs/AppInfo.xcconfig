@@ -8,7 +8,7 @@
 PRODUCT_NAME = sistem_penjurian_burung
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.sistemPenjurianBurung
+PRODUCT_BUNDLE_IDENTIFIER = com.example.sistem_penjurian_burung
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2025 com.example. All rights reserved.

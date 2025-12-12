@@ -20,15 +20,15 @@ class PesertaEventDetailScreen extends ConsumerWidget {
     final myRegistrationsAsync = ref.watch(myRegistrationsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(event.nama),
-      ),
+      appBar: AppBar(title: Text(event.nama)),
       body: myRegistrationsAsync.when(
         data: (myRegistrations) {
           return sesiAsync.when(
             data: (sesiList) {
               if (sesiList.isEmpty) {
-                return const Center(child: Text('Belum ada sesi untuk event ini.'));
+                return const Center(
+                  child: Text('Belum ada sesi untuk event ini.'),
+                );
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
@@ -76,19 +76,32 @@ class _SesiCard extends ConsumerWidget {
     required this.event,
   });
 
-  Future<void> _handleRegistration(BuildContext context, WidgetRef ref, SesiModel sesi, EventModel event) async {
+  Future<void> _handleRegistration(
+    BuildContext context,
+    WidgetRef ref,
+    SesiModel sesi,
+    EventModel event,
+  ) async {
     final currentUser = ref.read(authServiceProvider).currentUser;
     if (currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Anda harus login untuk mendaftar.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Anda harus login untuk mendaftar.')),
+      );
       return;
     }
 
     // Tampilkan loading indicator
-    showDialog(context: context, barrierDismissible: false, builder: (_) => const Center(child: CircularProgressIndicator()));
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
 
     try {
       // Panggil fungsi registerForSesi yang sekarang membuat dokumen pendaftaran
-      await ref.read(firestoreServiceProvider).registerForSesi(
+      await ref
+          .read(firestoreServiceProvider)
+          .registerForSesi(
             eventId: event.id,
             sesiId: sesi.id,
             userId: currentUser.uid,
@@ -97,27 +110,35 @@ class _SesiCard extends ConsumerWidget {
             sesiNama: sesi.nama,
             eventTanggal: event.tanggal,
           );
-      
+
       // Ambil kembali data pendaftaran yang baru dibuat untuk mendapatkan ID dan kode unik
-      final myNewestRegistration = await ref.read(myRegistrationsProvider.future);
-      final newPendaftaran = myNewestRegistration.firstWhere((p) => p.sesiId == sesi.id);
+      final myNewestRegistration = await ref.read(
+        myRegistrationsProvider.future,
+      );
+      final newPendaftaran = myNewestRegistration.firstWhere(
+        (p) => p.sesiId == sesi.id,
+      );
 
       if (context.mounted) {
         Navigator.pop(context); // Tutup loading
-        Navigator.pushReplacement( // Ganti halaman saat ini agar tidak bisa kembali
+        Navigator.pushReplacement(
+          // Ganti halaman saat ini agar tidak bisa kembali
           context,
           MaterialPageRoute(
-            builder: (context) => InstruksiPembayaranScreen(
-              pendaftaran: newPendaftaran,
-              infoPembayaran: event.infoPembayaran,
-            ),
+            builder:
+                (context) => InstruksiPembayaranScreen(
+                  pendaftaran: newPendaftaran,
+                  infoPembayaran: event.infoPembayaran,
+                ),
           ),
         );
       }
     } catch (e) {
       if (context.mounted) {
         Navigator.pop(context); // Tutup loading
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -133,16 +154,20 @@ class _SesiCard extends ConsumerWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         // Hanya bisa tap jika sudah lunas
-        onTap: isRegistered && myRegistration.status == StatusPembayaran.lunas
-            ? () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PesertaSesiDetailScreen(
-                    sesi: sesi,
-                    pendaftaran: myRegistration,
-                  ),
-                ));
-              }
-            : null,
+        onTap:
+            isRegistered && myRegistration.status == StatusPembayaran.lunas
+                ? () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder:
+                          (context) => PesertaSesiDetailScreen(
+                            sesi: sesi,
+                            pendaftaran: myRegistration,
+                          ),
+                    ),
+                  );
+                }
+                : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -150,7 +175,10 @@ class _SesiCard extends ConsumerWidget {
               width: double.infinity,
               color: Theme.of(context).primaryColorLight,
               padding: const EdgeInsets.all(12),
-              child: Text(sesi.nama, style: Theme.of(context).textTheme.titleLarge),
+              child: Text(
+                sesi.nama,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(12.0),
@@ -162,22 +190,29 @@ class _SesiCard extends ConsumerWidget {
                     const Divider(height: 24),
                   ],
                   if (sesi.kategoriBobot.isNotEmpty) ...[
-                    const Text('Kriteria Penilaian:', style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Kriteria Penilaian:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 8),
                     SizedBox(
                       height: 32,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: sesi.kategoriBobot.keys.map((kategoriName) {
-                          final kategoriEnum = KategoriPenilaian.values.firstWhere((k) => k.name == kategoriName);
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Chip(
-                              label: Text(kategoriEnum.displayName),
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                            ),
-                          );
-                        }).toList(),
+                        children:
+                            sesi.kategoriBobot.keys.map((kategoriName) {
+                              final kategoriEnum = KategoriPenilaian.values
+                                  .firstWhere((k) => k.name == kategoriName);
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Chip(
+                                  label: Text(kategoriEnum.displayName),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                       ),
                     ),
                     const Divider(height: 24),
@@ -191,9 +226,22 @@ class _SesiCard extends ConsumerWidget {
                           Text('Harga Tiket: Rp ${sesi.hargaTiket}'),
                           pendaftarSesiAsync.when(
                             data: (pendaftar) {
-                              final pendaftarLunas = pendaftar.where((p) => p.status == StatusPembayaran.lunas).length;
+                              final pendaftarLunas =
+                                  pendaftar
+                                      .where(
+                                        (p) =>
+                                            p.status == StatusPembayaran.lunas,
+                                      )
+                                      .length;
                               final sisaKuota = sesi.kuota - pendaftarLunas;
-                              return Text('Sisa Kuota: $sisaKuota', style: TextStyle(color: sisaKuota > 0 ? Colors.green : Colors.red, fontWeight: FontWeight.bold));
+                              return Text(
+                                'Sisa Kuota: $sisaKuota',
+                                style: TextStyle(
+                                  color:
+                                      sisaKuota > 0 ? Colors.green : Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
                             },
                             loading: () => const Text('Memuat kuota...'),
                             error: (e, s) => const Text('Error kuota'),
@@ -201,7 +249,12 @@ class _SesiCard extends ConsumerWidget {
                         ],
                       ),
                       // PERBAIKAN UTAMA: Logika yang lebih jelas
-                      _buildActionButton(context, ref, pendaftarSesiAsync, isLocked),
+                      _buildActionButton(
+                        context,
+                        ref,
+                        pendaftarSesiAsync,
+                        isLocked,
+                      ),
                     ],
                   ),
                 ],
@@ -213,9 +266,14 @@ class _SesiCard extends ConsumerWidget {
     );
   }
 
-  Widget _buildActionButton(BuildContext context, WidgetRef ref, AsyncValue pendaftarSesiAsync, bool isLocked) {
+  Widget _buildActionButton(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue pendaftarSesiAsync,
+    bool isLocked,
+  ) {
     final isRegistered = myRegistration.id.isNotEmpty;
-    
+
     if (isRegistered) {
       // Jika sudah terdaftar, tampilkan sesuai status
       switch (myRegistration.status) {
@@ -223,12 +281,15 @@ class _SesiCard extends ConsumerWidget {
           return ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => InstruksiPembayaranScreen(
-                  pendaftaran: myRegistration,
-                  infoPembayaran: event.infoPembayaran,
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder:
+                      (context) => InstruksiPembayaranScreen(
+                        pendaftaran: myRegistration,
+                        infoPembayaran: event.infoPembayaran,
+                      ),
                 ),
-              ));
+              );
             },
             child: const Text('Lanjut Bayar'),
           );
@@ -247,12 +308,15 @@ class _SesiCard extends ConsumerWidget {
           return ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => InstruksiPembayaranScreen(
-                  pendaftaran: myRegistration,
-                  infoPembayaran: event.infoPembayaran,
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder:
+                      (context) => InstruksiPembayaranScreen(
+                        pendaftaran: myRegistration,
+                        infoPembayaran: event.infoPembayaran,
+                      ),
                 ),
-              ));
+              );
             },
             child: const Text('Bayar Ulang'),
           );
@@ -261,16 +325,27 @@ class _SesiCard extends ConsumerWidget {
       // Jika belum terdaftar, tampilkan tombol daftar
       return pendaftarSesiAsync.when(
         data: (pendaftar) {
-          final pendaftarLunas = pendaftar.where((p) => p.status == StatusPembayaran.lunas).length;
-          final isFull = (sesi.kuota - pendaftar.length) <= 0;
+          final pendaftarLunas =
+              pendaftar.where((p) => p.status == StatusPembayaran.lunas).length;
+          final isFull = (sesi.kuota - pendaftarLunas) <= 0;
           return ElevatedButton(
-            onPressed: isLocked || isFull ? null : () => _handleRegistration(context, ref, sesi, event),
-            style: isLocked || isFull ? ElevatedButton.styleFrom(backgroundColor: Colors.grey) : null,
+            onPressed:
+                isLocked || isFull
+                    ? null
+                    : () => _handleRegistration(context, ref, sesi, event),
+            style:
+                isLocked || isFull
+                    ? ElevatedButton.styleFrom(backgroundColor: Colors.grey)
+                    : null,
             child: Text(isLocked ? 'Ditutup' : (isFull ? 'Penuh' : 'Daftar')),
           );
         },
-        loading: () => const ElevatedButton(onPressed: null, child: Text('Memuat...')),
-        error: (e, s) => const ElevatedButton(onPressed: null, child: Text('Error')),
+        loading:
+            () =>
+                const ElevatedButton(onPressed: null, child: Text('Memuat...')),
+        error:
+            (e, s) =>
+                const ElevatedButton(onPressed: null, child: Text('Error')),
       );
     }
   }
